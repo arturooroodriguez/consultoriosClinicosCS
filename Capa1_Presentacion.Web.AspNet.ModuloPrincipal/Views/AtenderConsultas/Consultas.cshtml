@@ -14,14 +14,6 @@
         <h2 class="mb-0">Consultas del día</h2>
     </div>
 
-    <!-- Buscador -->
-    <!--<div class="input-group mb-3 shadow-sm">
-        <span class="input-group-text bg-white border-end-0">
-            <i class="fas fa-search"></i>
-        </span>
-        <input type="search" id="buscador-personalizado" class="form-control border-start-0" placeholder="Buscar consulta..." aria-label="Search" />
-    </div>-->
-
     <!-- buscador Especialidades -->
     <div class="form-group">
         <label for="buscarEspecialidad">Buscar Especialidad</label>
@@ -61,10 +53,11 @@
 
         <!-- Filtro de fecha -->
         <div class="input-group w-auto mt-2 mt-md-0">
-            <label class="input-group-text" for="inputFechaCitas">
+            <label class="input-group-text" for="inputFechaCitas" aria-label="Seleccionar fecha">
                 <i class="fas fa-calendar-day"></i>
             </label>
-            <input type="date" class="form-control" id="inputFechaCitas">
+
+            <input type="date" id="inputFechaCitas" class="form-control">
             <button type="button" id="resetFilter" class="btn btn-outline-secondary" title="Restablecer filtros">
                 <i class="fas fa-rotate-right"></i>
             </button>
