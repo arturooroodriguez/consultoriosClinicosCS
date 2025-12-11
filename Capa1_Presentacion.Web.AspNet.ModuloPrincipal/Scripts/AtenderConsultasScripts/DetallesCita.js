@@ -1,7 +1,7 @@
 ﻿function toggleDetallesFila(table, elemento) {
-    var tr = elemento.closest('tr');
-    var row = table.row(tr);
-    var icon = elemento.find('.toggle-icon');
+    const tr = elemento.closest('tr');
+    const row = table.row(tr);
+    const icon = elemento.find('.toggle-icon');
 
     if (row.child.isShown()) {
         // Contraer
