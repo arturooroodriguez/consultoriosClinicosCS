@@ -1,25 +1,5 @@
-
-
 use BdClinicaWeb
 go
-
---PROCEDIMIENTOS ALMACENADOS PARA GESTIONAR PACIENTES == RESPONSABLE ROQUE GONZALES JONATHAN
-
-/******************************************************************************************
-Procedimiento: pro_Crear_Paciente
-Descripción: Inserta un nuevo paciente en la tabla Salud.Pacientes. Se ingresan datos como
-el código del paciente, su historial clínico, DNI, nombre completo, fecha de nacimiento y otros datos.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente.
-    - @pacienteHistorialClinicoCodigo: Código del historial clínico asociado al paciente.
-    - @pacienteDNI: Documento Nacional de Identidad del paciente.
-    - @pacienteNombreCompleto: Nombre completo del paciente.
-    - @pacienteFechaNacimiento: Fecha de nacimiento del paciente.
-    - @pacienteDireccion: Dirección del paciente (opcional).
-    - @pacienteTelefono: Teléfono del paciente (opcional).
-    - @pacienteCorreoElectronico: Correo electrónico del paciente (opcional).
-    - @pacienteEstado: Estado del paciente (A = Activo, I = Inactivo). Por defecto es 'A'.
-******************************************************************************************/
 
 create or alter procedure pro_Crear_Paciente
     @pacienteCodigo nchar(10),
@@ -57,14 +37,6 @@ create or alter procedure pro_Crear_Paciente
 	);
 go
 
-
-/******************************************************************************************
-Procedimiento: pro_Eliminar_Paciente
-Descripción: Se actualizara los datos necesarios del paciente
-Parámetros:
-    - son muchos pero alli revisalen ps :)
-******************************************************************************************/
-
 create or alter procedure pro_Actualizar_Paciente
     @pacienteCodigo nchar(10),
     @pacienteNombreCompleto nvarchar(100) = null,
@@ -86,13 +58,6 @@ create or alter procedure pro_Actualizar_Paciente
 	end;
 go
 
-/******************************************************************************************
-Procedimiento: pro_Eliminar_Paciente
-Descripción: Cambia el estado de un paciente a 'I' (Inactivo) en lugar de eliminar el registro
-de la base de datos.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente que se desea marcar como inactivo.
-******************************************************************************************/
 create or alter procedure pro_Eliminar_Paciente
 		@pacienteCodigo nchar(10)
 	as
@@ -103,13 +68,6 @@ create or alter procedure pro_Eliminar_Paciente
 	where pacienteCodigo = @pacienteCodigo;
 go
 
-/******************************************************************************************
-Procedimiento: pro_Eliminar_Paciente
-Descripción: Cambia el estado de un paciente a 'A' (Activo) en lugar de eliminar el registro
-de la base de datos.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente que se desea marcar como activo.
-******************************************************************************************/
 
 create or alter procedure pro_Recuperar_Paciente
 		@pacienteCodigo nchar(10)
@@ -121,12 +79,6 @@ create or alter procedure pro_Recuperar_Paciente
 	where pacienteCodigo = @pacienteCodigo;
 go
 
-/******************************************************************************************
-Procedimiento: pro_Mostrar_Paciente_por_codigo
-Descripción: Retorna la información de un paciente específico utilizando su código único.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente cuyo detalle se desea obtener.
-******************************************************************************************/
 create or alter procedure pro_Mostrar_Paciente_por_codigo
 		@pacienteCodigo nchar(10)
 	as
@@ -144,10 +96,6 @@ create or alter procedure pro_Mostrar_Paciente_por_codigo
 	where pacienteCodigo = @pacienteCodigo;
 go
 
-/******************************************************************************************
-Procedimiento: pro_listar_pacientes
-Descripción: Muestra todos los pacientes que existen en la base de datos
-******************************************************************************************/
 create or alter procedure pro_listar_pacientes
 	as
 begin
@@ -168,13 +116,6 @@ begin
 end
 go
 
-/******************************************************************************************
-Procedimiento: pro_Mostrar_HistoriaClinica
-Descripción: Muestra el historial clínico completo de un paciente, incluyendo su relación 
-con el médico que lo atendió.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente cuyo historial clínico se desea obtener.
-******************************************************************************************/
 CREATE OR ALTER PROCEDURE pro_Mostrar_HistoriaClinica
     @pacienteCodigo NCHAR(10)
 AS
@@ -199,12 +140,6 @@ GO
 exec pro_Mostrar_HistoriaClinica @pacienteCodigo = PAC0000001
 GO
 
-/******************************************************************************************
-Procedimiento: pro_Mostrar_ContactosEmergencia
-Descripción: Muestra los contactos de emergencia asociados a un paciente específico.
-Parámetros:
-    - @pacienteCodigo: Código único del paciente cuyos contactos de emergencia se desean obtener.
-******************************************************************************************/
 create or alter procedure pro_Mostrar_ContactosEmergencia
     @pacienteCodigo nchar(10)
 as
@@ -223,12 +158,6 @@ begin
 end;
 go
 
-/******************************************************************************************
-Descripción de procedimiento almacenado:
----------------------------------------------------------------------------------------------
-Procedimiento almacenado para agregar un contacto de emergencia en la tabla `ContactosEmergencia`.
-
-**********************************************************************************************/
 create or alter procedure pro_Agregar_ContactoEmergencia 
     @contactoEmergenciaCodigo nchar(10),
     @contactoEmergenciaNombre nvarchar(100),
@@ -279,11 +208,6 @@ begin
 end;
 go
 
-
-/******************************************************************************************
-Procedimiento: pro_Mostrar_MedicosConEspecialidad
-Descripción: Muestra la lista de médicos junto con la especialidad a la que pertenecen.
-******************************************************************************************/
 create or alter procedure pro_Mostrar_MedicosConEspecialidad
 	as
 	set nocount on;
@@ -296,10 +220,6 @@ create or alter procedure pro_Mostrar_MedicosConEspecialidad
 	inner join Administracion.Especialidad e on m.especialidadCodigo = e.especialidadCodigo;
 go
 
-/*********************************************************************************************
-Procedimiento: pro_Listar_TipoConsulta
-Descripcion: Lista los tipo de consulta que tiene la clinica
-*********************************************************************************************/
 create or alter procedure Pro_Listar_TipoConsulta
     as
     begin
@@ -314,11 +234,6 @@ create or alter procedure Pro_Listar_TipoConsulta
 end
 go
 
-
-/*********************************************************************************************
-Procedimiento: pro_Mostrar_Medico_por_codigo
-Descripcion: Lista un medico dependiendo del medico
-*********************************************************************************************/
 
 create or alter procedure pro_Mostrar_Medico_por_codigo
     @medicoCodigo nchar(10)
@@ -340,11 +255,6 @@ begin
 end;
 go
 
-
-/*********************************************************************************************
-Procedimiento: pro_Listar_Especialidad
-Descripcion: Lista los tipo de consulta que tiene la clinica
-*********************************************************************************************/
 create or alter procedure Pro_Listar_Especialidad
      as
     begin
@@ -360,23 +270,6 @@ create or alter procedure Pro_Listar_Especialidad
 end
 go
 
-
-
---PROCEDIMIENTO ALMACENADOS PARA GESTIONAR CITAS == Responsabloe Daniel Asmat
-
-/*************************************************************************************************************************
-Procedimiento: pro_Insertar_Cita
-Descripción: Este procedimiento inserta directamente los valores en la tabla Gestion.cita
-Parámetros: 
-  -@citaCodigo: Código único para la cita.
-  -@citaEstado: Estado de la cita, con un valor predeterminado de 'P' (Pendiente).
-  -@citaFechaHora: Fecha y hora programadas para la cita.
-  -@citaNotificacionCodigo: Código de notificación (puede ser NULL).
-  -@citaPacienteCodigo: Código del paciente.
-  -@citaTipoConsultaCodigo: Código del tipo de consulta.
-  -@citaMedicoCodigo: Código del médico.
-***************************************************************************************************************************/
---crear pacientes sp de gestionar pacientes 
 CREATE or alter PROCEDURE pro_Insertar_Cita
     @citaCodigo nchar(10),
     @citaEstado nchar(1) = 'P',
@@ -400,15 +293,6 @@ BEGIN
 END
 GO
 
-
-/*************************************************************************************************************************
-Procedimiento: pro_Buscar_Paciente
-Descripción: Procedimiento para buscar un paciente en la tabla Salud.paciente utilizando el DNI, el nombre completo o el teléfono.
-Parámetros: 
- -@pacienteDNI: El DNI del paciente que se desea buscar (puede ser NULL).
- -@pacienteNombreCompleto: El nombre completo del paciente que se desea buscar (puede ser NULL).
- -@pacienteTelefono: El teléfono del paciente que se desea buscar (puede ser NULL).
-***************************************************************************************************************************/
 CREATE or alter PROCEDURE pro_Buscar_Paciente
     @pacienteDNI nchar(8) = NULL,
     @pacienteNombreCompleto nvarchar(200) = NULL,
@@ -455,14 +339,7 @@ BEGIN
         pacienteDNI = @pacienteDNI;
 END
 GO
-
-/*************************************************************************************************************************
-Procedimiento: pro_CambiarEstadoPaciente
-Descripción: Cambiar el estado pacienteEstado con I de inactivo al momento de eliminar al paciente.
-Parámetros: 
- -@pacienteCodigo: El codigo del paciente.
-
-***************************************************************************************************************************/
+	
 CREATE or alter PROCEDURE pro_CambiarEstadoPaciente
     @pacienteCodigo nchar(10)
 AS
@@ -474,15 +351,6 @@ BEGIN
     WHERE pacienteCodigo = @pacienteCodigo;
 END
 GO
-
-
-/*************************************************************************************************************************
-Procedimiento: pro_VisualizarCitasPaciente
-Descripción: Procedimiento para visualizar las citas que tiene un cliente.
-Parámetros: 
- -@pacienteCodigo: Código del paciente para el que se desean visualizar las citas.
-
-***************************************************************************************************************************/
 
 CREATE OR ALTER PROCEDURE pro_VisualizarCitasPaciente
     @pacienteCodigo nchar(10)
@@ -515,15 +383,6 @@ BEGIN
 END;
 GO
 
---exec pro_VisualizarCitasPaciente @pacienteCodigo = PAC0000001
-
-/*************************************************************************************************************************
-Procedimiento: pro_Mostrar_Citas
-Descripción: Procedimiento para visualizar todas las citas del Dia
-Parámetros: 
- -@pacienteCodigo: Código del paciente para el que se desean visualizar las citas.
-
-***************************************************************************************************************************/
 
 CREATE OR ALTER PROCEDURE pro_Mostrar_Citas
 AS
@@ -559,18 +418,6 @@ BEGIN
 END;
 GO
 
-
-/******************************************************************************************
-Descripción de procedimiento almacenado:
----------------------------------------------------------------------------------------------
-Agrega una nueva historia clínica para un paciente, especificando su código de paciente, antecedentes médicos, 
-alergias, y las fechas de creación y actualización.
-
----------------------------------------------------------------------------------------------
-Fecha        Usuario         Descripción de cambio
----------------------------------------------------------------------------------------------
-<12/11/2024> <Jonathan Roque>      Creación inicial
-**************************************************************************************/
 create or alter procedure pro_Crear_HistoriaClinica
     @historialClinicoCodigo nchar(10)
 	as
@@ -590,12 +437,6 @@ create or alter procedure pro_Crear_HistoriaClinica
 	end
 go
 
-/******************************************************************************************
-Descripción de procedimiento almacenado:
----------------------------------------------------------------------------------------------
-listar la hostorial clinica de un paciente.
-
-**************************************************************************************/
 CREATE OR ALTER PROCEDURE pro_listar_HistoriaClinica
     @historialClinicoCodigo NCHAR(10)
 AS
@@ -623,13 +464,6 @@ BEGIN
 END;
 GO
 
---exec pro_listar_HistoriaClinica @historialClinicoCodigo = HIS0000002
---go
-/******************************************************************************************
-Descripción de procedimiento almacenado:
----------------------------------------------------------------------------------------------
-Lista los diagnosticos por consulta
-**************************************************************************************/
 
 CREATE OR ALTER PROCEDURE pro_listar_DiagnosticosPorConsulta
     @consultaCodigo NCHAR(10)
@@ -691,21 +525,6 @@ BEGIN
 END;
 GO
 
-
-
---*******************************************************************************************************************************************************
---PROCEDIMIENTOS ALMACENADOS PARA ATENDER CONSULTAS 
-/******************************************************************************************
-Procedimiento: pro_Crear_Consulta
-Descripción: Este procedimiento se enfoca únicamente en insertar los datos proporcionados en la tabla Gestion.Consulta.
--@consultaCodigo: Código único para la consulta.
--@consultaCitaCodigo: Codigo de la cita
--@consultaFechaHoraFinal: Fecha y hora de la consulta.
--@consultaMedicoCodigo: Código del médico asociado a la consulta.
--@consultaPacienteCodigo: Código del paciente asociado.
--@consultaMotivo: Motivo de la consulta.
--@consultaEstado: Estado de la consulta (P = Pendiente, por defecto).
-******************************************************************************************/
 create or alter procedure pro_Crear_Consulta
     @consultaCodigo nchar(10),
     @consultaCitaCodigo nchar(10),
@@ -718,7 +537,7 @@ create or alter procedure pro_Crear_Consulta
     begin
         set nocount on;
 
-    -- Inserción directa en la tabla Gestion.Consulta
+    -- InserciÃ³n directa en la tabla Gestion.Consulta
     insert into Gestion.Consulta (
 		[consultaCodigo], [consultacitaCodigo], [consultaFechaHoraFinal], [medicoCodigo], [tipoConsultaCodigo], [pacienteCodigo]
     )
@@ -733,18 +552,6 @@ create or alter procedure pro_Crear_Consulta
     set nocount off;
 end;
 go
-
-
-/******************************************************************************************
-Procedimiento: pro_Listar_Consulta
-Descripción: Procedimiento almacenado que devuelve una lista de consultas ordenadas según la importancia.
--Codigo: Código de la consulta.
--FechaHora: Fecha y hora de la consulta.
--Medico: Código del médico.
--Paciente: Código del paciente.
--Motivo: Motivo de la consulta.
--Estado: Estado de la consulta (P, C, X).
-******************************************************************************************/
 
 CREATE OR ALTER PROCEDURE pro_Listar_Consulta
 AS
@@ -776,18 +583,6 @@ BEGIN
     SET NOCOUNT OFF;
 END;
 GO
-
-
-
-/******************************************************************************************
-Procedimiento: pro_Cambiar_Estado_Cita
-Descripción:  Procedimiento almacenado para cambiar el estado de una consulta.
--@consultaCodigo: El código de la consulta que deseas modificar.
--@nuevoEstado: El nuevo estado que deseas asignar a la consulta. Los posibles valores son 'P', 'C', 'X'.
--@cambiomedicoCodigo: El código del médico que está realizando el cambio.
--@cambioDescripcion: Una descripción que indica qué cambio se ha realizado.
-******************************************************************************************/
-
 
 create or alter procedure pro_Actualizar_Estado_CitaPendiente
     @citaCodigo nchar(10)
@@ -854,47 +649,13 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Actualizar el estado y la hora de inicio de la cita
     UPDATE Gestion.cita
     SET 
         citaEstado = 'T',
-        citaFechaHora = GETDATE() -- Asegúrate de que esta columna sea la correcta
+        citaFechaHora = GETDATE()
     WHERE citaCodigo = @citaCodigo;
 END
 GO
-
-
-
-/******************************************************************************************
-Descripción de procedimiento almacenado: Verificar si la cita existe
----------------------------------------------------------------------------------------------
-**************************************************************************************/
-
-
-
---CREATE or alter PROCEDURE pro_Verificar_Cita_Existente
---		@fechaHora DATETIME,
---		@medicoCodigo VARCHAR(50)
---	AS
---	BEGIN
---		IF EXISTS (SELECT 1 FROM Gestion.cita WHERE CitaFechaHora = @fechaHora AND CitaMedicoCodigo = @medicoCodigo)
---		BEGIN
---			SELECT 1;  -- La cita ya existe
---		END
---		ELSE
---		BEGIN
---			SELECT 0;  -- No hay cita existente
---		END
---	END
---go
-/******************************************************************************************
-Descripción de procedimiento almacenado: Genera un código único basado en un prefijo y la secuencia en una columna específica.
----------------------------------------------------------------------------------------------
- Fecha     Usuario      Descripción de cambio
----------------------------------------------------------------------------------------------
- 12/11/2024  Usuario       Creación del procedimiento con ajuste a nchar(10)
-**************************************************************************************/
-
 
 create or alter procedure spGenerarCodigoUnico
     @prefijo nvarchar(3),         
@@ -918,18 +679,6 @@ as
 set nocount off;
 go
 
-
-/******************************************************************************************
-Descripción de procedimiento almacenado: 
-Este procedimiento me lista la agenda de un medico en una fecha elegida 
----------------------------------------------------------------------------------------------
- Fecha     Usuario      Descripción de cambio
----------------------------------------------------------------------------------------------
- 12/11/2024  Usuario       Creación del procedimiento con ajuste a nchar(10)
-**************************************************************************************/
---EXEC pro_Listar_AgendaMedico @medicoCodigo = 'MED0000004', @fecha = '2024-12-21';
---EXEC pro_Listar_AgendaMedico @medicoCodigo = 'MED0000004', @fecha = '2024-12-21'
-
 CREATE OR ALTER FUNCTION fn_Listar_HorariosEspecialidad (
     @especialidadCodigo nchar(10),
     @fecha date
@@ -942,7 +691,6 @@ RETURNS @IntervalosTiempo TABLE (
 )
 AS
 BEGIN
-    -- Insertar intervalos de tiempo basados en los horarios de los médicos de la especialidad
     INSERT INTO @IntervalosTiempo (MedicoCodigo, MedicoNombre , HoraInicio, HoraFin)
     SELECT 
         h.medicoCodigo,
@@ -966,16 +714,12 @@ END
 GO
 
 
---SELECT * 
---FROM fn_Listar_HorariosEspecialidad('ESP0000004', '2024-12-13')
---ORDER BY HoraInicio, MedicoCodigo;
-
 CREATE OR ALTER PROCEDURE pro_Listar_HorariosEspecialidadConCitas
     @especialidadCodigo nchar(10),
     @fecha date
 AS
 BEGIN
-    -- Crear una tabla temporal para almacenar los horarios y las citas
+
     CREATE TABLE #HorariosConCitas (
         MedicoCodigo nchar(10),
         HoraInicio time,
@@ -988,7 +732,6 @@ BEGIN
         PacienteNombre nvarchar(100) NULL
     );
 
-    -- Insertar los horarios desde la función
     INSERT INTO #HorariosConCitas (MedicoCodigo,MedicoNombre, HoraInicio, HoraFin)
     SELECT 
         MedicoCodigo,
@@ -998,7 +741,6 @@ BEGIN
     FROM 
         fn_Listar_HorariosEspecialidad(@especialidadCodigo, @fecha);
 
-    -- Actualizar la tabla con información de las citas y nombres solo para las filas con citas asignadas
     UPDATE h
     SET 
         ConsultaCodigo = c.consultaCodigo,
@@ -1017,13 +759,12 @@ BEGIN
     JOIN
         Salud.Pacientes p ON c.pacienteCodigo = p.pacienteCodigo
     WHERE 
-        ci.citaEstado = 'P' AND  -- Filtrar por estado de la cita (por ejemplo, 'P' para pendientes)
+        ci.citaEstado = 'P' AND 
         ci.citaFechaHora >= @fecha AND 
         ci.citaFechaHora < DATEADD(day, 1, @fecha) AND 
         ci.citaFechaHora >= CAST(CONVERT(datetime, CONCAT(CONVERT(date, @fecha), ' ', CAST(h.HoraInicio AS char(5)))) AS datetime) AND 
         ci.citaFechaHora < CAST(CONVERT(datetime, CONCAT(CONVERT(date, @fecha), ' ', CAST(h.HoraFin AS char(5)))) AS datetime);
 
-    -- Seleccionar los horarios con información de las citas y nombres
     SELECT 
         MedicoCodigo,
 		MedicoNombre,
@@ -1039,24 +780,10 @@ BEGIN
     ORDER BY 
         HoraInicio, MedicoCodigo;
 
-    -- Eliminar la tabla temporal
     DROP TABLE #HorariosConCitas;
 END
 GO
 
-
---EXEC pro_Listar_HorariosEspecialidadConCitas @especialidadCodigo = 'ESP0000004', @fecha = '2024-12-20';
-
-
-
---EXEC pro_Listar_AgendaMedico @medicoCodigo = 'MED0000004', @fecha = '2024-12-21';
-
-
-/******************************************************************************************
-Descripción de procedimiento almacenado: 
-Procedimiento para crear detaññes de ima comsulta
-
-**************************************************************************************/
 CREATE or alter PROCEDURE pro_registrar_DetallesConsulta
     @DetallesConsultaCodigo NCHAR(10),
     @DetallesConsultaHistoriaEnfermedad NVARCHAR(500) = NULL,
@@ -1066,7 +793,6 @@ CREATE or alter PROCEDURE pro_registrar_DetallesConsulta
     @ConsultaCodigo NCHAR(10)
 AS
 BEGIN
-        -- Insertar en la tabla DetallesConsulta
         INSERT INTO Gestion.DetallesConsulta (
             detallesConsultaCodigo,
             detallesConsultaHistoriaEnfermedad,
@@ -1086,7 +812,6 @@ BEGIN
 END;
 GO
 
---procedimiento aqui oe
 CREATE OR ALTER PROCEDURE pro_registrar_RecetaMedica
         @RecetaCodigo NCHAR(10),
         @RecetaConsultaCodigo NCHAR(10),
@@ -1095,7 +820,6 @@ CREATE OR ALTER PROCEDURE pro_registrar_RecetaMedica
         @RecetaRecomendaciones NVARCHAR(500)
 AS
 BEGIN
-        -- Insertar en la tabla RecetaMedica
         INSERT INTO Salud.RecetaMedica (
             recetaCodigo,
             recetaConsultaCodigo,
@@ -1137,7 +861,6 @@ BEGIN
 END;
 GO
 
---este procedimiento me ayudara a actualziar la hora final de la consulta
 CREATE or alter PROCEDURE pro_actualizar_HoraFinalConsulta
     @ConsultaCodigo NCHAR(10)
 AS
