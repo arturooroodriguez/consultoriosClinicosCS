@@ -53,8 +53,9 @@
             <h4 class="mb-3 text-center">Consulta</h4>
             <input id="CodigoConsultaInputMain" type="hidden" name="name" value="" />
             <div>
-                <label>Fecha:</label>
-                <p class="ms-3" id="fechaCita"></p>
+            <span id="fechaLabel">Fecha:</span>
+            <p id="fechaCita" aria-labelledby="fechaLabel">@Model.FechaCita</p>
+
             </div>
             <div>
                 <label>Hora:</label>
