@@ -4,6 +4,11 @@
     inicializarFiltrosCitas(table);
     aplicarFiltroPorDefecto(table, 'Pendiente');
     agregarEventosFiltros(table);
+    // ✅ Filtro de buscador por especialidad
+    $('#buscarEspecialidad').on('keyup', function () {
+        table.column(6).search(this.value).draw();
+        // 👆 6 es el índice de la columna "EspecialidadNombre"
+    });
 });
 
 function inicializarTablaConsultas() {
@@ -16,6 +21,7 @@ function inicializarTablaConsultas() {
                 if (json?.consultaExitosa) {
                     console.log('Datos recibidos:', json.data);
                     actualizarContadoresFiltros(json.data); // Asegúrate de pasar los datos
+
                     return json.data;
                 } else {
                     alert(json?.mensaje || "Error en la consulta");
@@ -51,6 +57,7 @@ function obtenerColumnasConsultas() {
         { "data": "ConsultaFechaCita" },
         { "data": "ConsultaHoraFecha" },
         { "data": "MedicoNombre" },
+        { "data": "EspecialidadNombre" },   // ✅ Nueva columna HOLAAAAAAAAA
         {
             "data": "ConsultaEstado",
             "render": function (data) {
@@ -119,11 +126,11 @@ function actualizarContadoresFiltros(data) {
 function aplicarFiltroPorDefecto(table, filterValue) {
     $('.nav-link[data-filter="' + filterValue + '"]').addClass('active');
     if (filterValue === 'all') {
-        table.column(6).search('').draw();
+        table.column(7).search('').draw();
     } else if (filterValue === 'Pendiente') {
-        table.column(6).search('^(Pendiente|Atendiendo)$', true, false).draw();  
+        table.column(7).search('^(Pendiente|Atendiendo)$', true, false).draw();  
     } else {
-        table.column(6).search('^' + filterValue + '$', true, false).draw();
+        table.column(7).search('^' + filterValue + '$', true, false).draw();
     }
 }
 
@@ -155,6 +162,8 @@ function agregarEventosFiltros(table) {
         table.column(7).search('').draw();
     });
 }
+
+
 
 
 

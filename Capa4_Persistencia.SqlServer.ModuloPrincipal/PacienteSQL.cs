@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
 {
-    public class PacienteSQL
+    public class PacienteSQL 
     {
         private AccesoSQLServer accesoSQLServer;
 

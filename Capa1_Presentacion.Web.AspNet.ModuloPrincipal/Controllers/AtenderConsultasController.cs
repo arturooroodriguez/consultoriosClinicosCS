@@ -52,6 +52,7 @@ namespace Capa1_Presentacion.Web.AspNet.ModuloPrincipal.Controllers
                     ? c.ConsultaFechaHoraFinal.Value.ToString("dd-MMMM-yyyy hh:mm tt")
                     : null,
                     MedicoNombre = $"{c.Medico.MedicoNombre} {c.Medico.MedicoApellido}",
+                    EspecialidadNombre = c.Medico.Especialidad.EspecialidadNombre,
                     PacienteNombre = c.Paciente.PacienteNombreCompleto,
                     ConsultaEstado = GetEstadoCita(c.Cita.CitaEstado),
                     FechaCitaFilter = c.Cita.CitaFechaHora.ToString("dd-MM-yyyy HH:mm:ss"),
@@ -428,5 +429,216 @@ namespace Capa1_Presentacion.Web.AspNet.ModuloPrincipal.Controllers
             else
                 return "Desconocido";
         }
+
+        /*[HttpPost]
+        public JsonResult ObtenerConsultaCompleta(string consultaCodigo, string pacienteCodigo, string historialClinicoCodigo)
+        {
+            bool accionExitosa;
+            string mensajeRetorno;
+            object data = null;
+
+            try
+            {
+                // Obtener datos de la consulta
+                var consulta = atenderConsultaServicio.BuscarConsultaPorCodigo(consultaCodigo);
+
+                // Obtener datos del paciente
+                var paciente = atenderConsultaServicio.DatosPaciente(pacienteCodigo);
+                int edad = CalcularEdad(paciente.PacienteFechaNacimiento);
+
+                // Obtener detalles (inicio, motivo consulta, etc.)
+                var detalles = atenderConsultaServicio.historiaClinicaDetalles(historialClinicoCodigo);
+
+                // Obtener diagnósticos
+                var diagnosticos = consulta.Diagnosticos1.Select(d => new
+                {
+                    codigo = d.DiagnosticoCodigo,
+                    descripcion = d.DiagnosticoDescripcion
+                }).ToList();
+
+                // Obtener recetas/tratamientos
+                var recetas = consulta.RecetasMedicas1.Select(r => new
+                {
+                    codigo = r.RecetaCodigo,
+                    descripcion = r.RecetaDescripcion,
+                    tratamiento = r.RecetaTratamiento,
+                    recomendaciones = r.RecetaRecomendaciones
+                }).ToList();
+
+                data = new
+                {
+                    consulta = new
+                    {
+                        codigo = consulta.ConsultaCodigo,
+                        fechaInicio = consulta.Cita.CitaFechaHora.ToString("dd/MM/yyyy HH:mm"),
+                        fechaFin = consulta.ConsultaFechaHoraFinal?.ToString("dd/MM/yyyy HH:mm"),
+                        medico = $"{consulta.Medico.MedicoNombre} {consulta.Medico.MedicoApellido}",
+                    },
+                    paciente = new
+                    {
+                        codigo = paciente.PacienteCodigo,
+                        nombre = paciente.PacienteNombreCompleto,
+                        dni = paciente.PacienteDNI,
+                        edad = edad,
+                        direccion = paciente.PacienteDireccion,
+                        telefono = paciente.PacienteTelefono,
+                        email = paciente.PacienteCorreoElectronico
+                    },
+                    detalles = detalles.Select(d => new
+                    {
+                        motivo = d.DetallesConsultaMotivoConsulta,
+                        historiaEnfermedad = d.DetallesConsultaHistoriaEnfermedad,
+                        evaluacionPsico = d.DetallesConsultaEvaluacionPsico1,
+                        revisiones = d.DetallesConsultaRevisiones1
+                    }).FirstOrDefault(),
+                    diagnosticos,
+                    recetas
+                };
+
+                accionExitosa = true;
+                mensajeRetorno = "Consulta completa obtenida correctamente.";
+            }
+            catch (Exception ex)
+            {
+                accionExitosa = false;
+                mensajeRetorno = ex.Message;
+            }
+
+            return Json(new { transaccionExitosa = accionExitosa, mensaje = mensajeRetorno, data = data }, JsonRequestBehavior.AllowGet);
+        }*/
+        [HttpPost]
+        public JsonResult ObtenerConsultaCompleta1(string consultaCodigo)
+        {
+            bool accionExitosa;
+            string mensajeRetorno;
+            object data = null;
+
+            try
+            {
+                var dto = atenderConsultaServicio.ObtenerConsultaCompleta(consultaCodigo);
+
+                if (dto == null)
+                {
+                    accionExitosa = false;
+                    mensajeRetorno = "Consulta no encontrada.";
+                    return Json(new { transaccionExitosa = accionExitosa, mensaje = mensajeRetorno }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Mapear a objeto anónimo para enviar al frontend (evita devolver entidades completas con navegación)
+                data = new
+                {
+                    consulta = new
+                    {
+                        codigo = dto.Consulta.ConsultaCodigo,
+                        fecha = dto.Consulta.Cita?.CitaFechaHora.ToString("dd/MM/yyyy") ?? "",
+                        hora = dto.Consulta.Cita?.CitaFechaHora.ToString("hh:mm tt") ?? "",
+                        fechaFin = dto.Consulta.ConsultaFechaHoraFinal?.ToString("dd/MM/yyyy HH:mm") ?? "",
+                        medico = dto.Consulta.Medico != null ? $"{dto.Consulta.Medico.MedicoNombre} {dto.Consulta.Medico.MedicoApellido}" : ""
+                    },
+                    paciente = dto.Consulta.Paciente != null ? new
+                    {
+                        codigo = dto.Consulta.Paciente.PacienteCodigo,
+                        nombre = dto.Consulta.Paciente.PacienteNombreCompleto,
+                        dni = dto.Consulta.Paciente.PacienteDNI,
+                        direccion = dto.Consulta.Paciente.PacienteDireccion,
+                        telefono = dto.Consulta.Paciente.PacienteTelefono,
+                        email = dto.Consulta.Paciente.PacienteCorreoElectronico
+                    } : null,
+                    detalles = dto.DetallesConsulta != null && dto.DetallesConsulta.Any() ? dto.DetallesConsulta.Select(d => new {
+                        motivo = d.DetallesConsultaMotivoConsulta1,
+                        historia = d.DetallesConsultaHistoriaEnfermedad1,
+                        evaluacion = d.DetallesConsultaEvaluacionPsico1,
+                        revisiones = d.DetallesConsultaRevisiones1
+                    }).FirstOrDefault() : null,
+                    diagnosticos = dto.Diagnosticos?.Select(x => new {
+                        codigo = x.DiagnosticoCodigo,
+                        descripcion = x.DiagnosticoDescripcion
+                    }).ToList(),
+                    recetas = dto.Recetas?.Select(r => new {
+                        codigo = r.RecetaCodigo,
+                        descripcion = r.RecetaDescripcion,
+                        tratamiento = r.RecetaTratamiento,
+                        recomendaciones = r.RecetaRecomendaciones
+                    }).ToList()
+                };
+
+                accionExitosa = true;
+                mensajeRetorno = "Consulta completa obtenida.";
+            }
+            catch (Exception ex)
+            {
+                accionExitosa = false;
+                mensajeRetorno = ex.Message;
+            }
+
+            return Json(new { transaccionExitosa = accionExitosa, mensaje = mensajeRetorno, data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult ObtenerConsultaCompleta(string consultaCodigo)
+        {
+            bool accionExitosa;
+            string mensajeRetorno;
+            object data = null;
+
+            try
+            {
+                var dto = atenderConsultaServicio.ObtenerConsultaCompleta(consultaCodigo);
+
+                data = new
+                {
+                    consulta = new
+                    {
+                        codigo = dto.Consulta.ConsultaCodigo,
+                        fechaInicio = dto.Consulta.Cita.CitaFechaHora.ToString("dd/MM/yyyy HH:mm"),
+                        fechaFin = dto.Consulta.ConsultaFechaHoraFinal?.ToString("dd/MM/yyyy HH:mm"),
+                        medico = $"{dto.Consulta.Medico.MedicoNombre} {dto.Consulta.Medico.MedicoApellido}",
+                        tipoConsulta = dto.Consulta.TipoConsulta.TipoConsultaCodigo
+                    },
+                    paciente = new
+                    {
+                        codigo = dto.Consulta.Paciente.PacienteCodigo,
+                        nombre = dto.Consulta.Paciente.PacienteNombreCompleto
+                    },
+                    detalles = dto.DetallesConsulta.Select(d => new
+                    {
+                        motivo = d.DetallesConsultaMotivoConsulta1,
+                        historiaEnfermedad = d.DetallesConsultaHistoriaEnfermedad1,
+                        evaluacionPsico = d.DetallesConsultaEvaluacionPsico1,
+                        revisiones = d.DetallesConsultaRevisiones1
+                    }),
+                    diagnosticos = dto.Diagnosticos.Select(di => new
+                    {
+                        codigo = di.DiagnosticoCodigo,
+                        descripcion = di.DiagnosticoDescripcion
+                    }),
+                    recetas = dto.Recetas.Select(r => new
+                    {
+                        codigo = r.RecetaCodigo,
+                        descripcion = r.RecetaDescripcion,
+                        tratamiento = r.RecetaTratamiento,
+                        recomendaciones = r.RecetaRecomendaciones
+                    })
+                };
+
+                accionExitosa = true;
+                mensajeRetorno = "Consulta completa obtenida correctamente.";
+            }
+            catch (Exception ex)
+            {
+                accionExitosa = false;
+                mensajeRetorno = ex.Message;
+            }
+
+            return Json(new { transaccionExitosa = accionExitosa, mensaje = mensajeRetorno, data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+
+
     }
 }

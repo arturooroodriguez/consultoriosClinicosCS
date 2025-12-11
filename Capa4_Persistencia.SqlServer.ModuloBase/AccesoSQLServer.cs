@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Capa4_Persistencia.SqlServer.ModuloBase
 {
-    public class AccesoSQLServer
+    public class AccesoSQLServer 
     {
         private SqlConnection conexion;
         private SqlTransaction transaccion;
 
-        public void AbrirConexion()
+        public virtual void AbrirConexion()
         {
             try
             {
                 conexion = new SqlConnection();
-                conexion.ConnectionString = "Data Source=DESKTOP-D9BFG02; Initial Catalog=BdClinicaWeb;Integrated Security=true";
+                conexion.ConnectionString = "Data Source=R2D2XD\\SQLEXPRESS; Initial Catalog=BdClinicaWeb;Integrated Security=true";
                 conexion.Open();
 
                 Console.WriteLine("Conexión con la Base de Datos establecida correctamente.");
@@ -30,7 +30,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
 
         }
 
-        public void CerrarConexion()
+        public virtual  void CerrarConexion()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
 
         }
 
-        public void IniciarTransaccion()
+        public virtual  void IniciarTransaccion()
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
             }
         }
 
-        public void TerminarTransaccion()
+        public virtual void TerminarTransaccion()
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
             }
         }
 
-        public void CancelarTransaccion()
+        public virtual void CancelarTransaccion()
         {
             try
             {
@@ -99,7 +99,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
             }
         }
 
-        public SqlCommand ObtenerComandoSQL(string sentenciaSQL)
+        public virtual SqlCommand ObtenerComandoSQL(string sentenciaSQL)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloBase
             }
         }
 
-        public SqlCommand ObtenerComandoDeProcedimiento(string procedimientoAlmacenado)
+        public virtual  SqlCommand ObtenerComandoDeProcedimiento(string procedimientoAlmacenado)
         {
             try
             {

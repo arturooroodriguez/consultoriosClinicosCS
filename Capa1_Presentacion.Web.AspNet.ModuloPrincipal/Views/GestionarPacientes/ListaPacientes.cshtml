@@ -8,56 +8,76 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 }
-<div id="lista-pacientes-container" class="">
 
-    <div class="input-group rounded">
-        <span class="input-group-text border-0" id="search-addon">
-            <i class="fas fa-search"></i>
+<div id="lista-pacientes-container" class="container-fluid p-3">
+
+    <!-- 🔎 Buscador -->
+    <div class="input-group mb-4 shadow-sm">
+        <span class="input-group-text bg-white border-end-0">
+            <i class="fas fa-search text-secondary"></i>
         </span>
-        <input type="search" id="buscador-personalizado" class="form-control rounded-end " placeholder="buscar" aria-label="Search" aria-describedby="search-addon" />
+        <input type="search" id="buscador-personalizado"
+               class="form-control border-start-0"
+               placeholder="Buscar paciente por nombre o DNI..."
+               aria-label="Search" aria-describedby="search-addon" />
     </div>
 
-
-    <div class="d-flex align-items-center my-3">
-        <ul class="nav " id="sub-nav">
+    <!-- 🔖 Sub navegación -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <ul class="nav nav-pills" id="sub-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="#" data-filter="all">All <span id="total-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link active" href="#" data-filter="all">
+                    <i class="fa-solid fa-users me-1"></i> Todos
+                    <span id="total-count" class="badge bg-secondary ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-filter="Activo">Activos <span id="active-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="Activo">
+                    <i class="fa-solid fa-user-check me-1 text-success"></i> Activos
+                    <span id="active-count" class="badge bg-success ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-filter="Inactivo">Inactivos <span id="inactive-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="Inactivo">
+                    <i class="fa-solid fa-user-xmark me-1 text-danger"></i> Inactivos
+                    <span id="inactive-count" class="badge bg-danger ms-1">0</span>
+                </a>
             </li>
         </ul>
-        <a class="text-primary ms-3 px-4 agregar-btn " style="text-decoration: none; cursor: pointer; " data-bs-toggle="modal" data-bs-target="#modalAgregarPaciente">
-            <i class="fas fa-plus-circle"></i> Agregar nuevo paciente
+
+        <!-- Botón agregar paciente -->
+        <a class="btn btn-primary ms-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAgregarPaciente">
+            <i class="fas fa-plus-circle me-2"></i> Agregar paciente
         </a>
     </div>
+
     <hr />
 
-    <table id="tabla_pacientes" class="table table-hover" data-url-listar-pacientes="@Url.Action("ListarPacientes", "GestionarPacientes")">
-        <thead>
-            <tr>
-                <th></th>
-                <th>DNI</th>
-                <th>NOMBRES PACIENTES</th>
-                <th>ESTADO</th>
-                <th>EXPEDIENTE</th>
-                <th>CONTACTO</th>
-                <th>SEGURO</th>
-                @*<th>SEGURO</th>*@
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <!-- 📋 Tabla Pacientes -->
+    <div class="table-responsive">
+        <table id="tabla_pacientes"
+               class="table table-hover align-middle shadow-sm"
+               data-url-listar-pacientes="@Url.Action("ListarPacientes", "GestionarPacientes")">
+            <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>DNI</th>
+                    <th>Nombre Paciente</th>
+                    <th>Estado</th>
+                    <th>Expediente</th>
+                    <th>Contacto</th>
+                    <th>Seguro</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
+    <!-- Modals -->
     @Html.Partial("Modals/_ModalAgregarPaciente")
-
     @Html.Partial("Modals/_ModalActualizarPaciente")
 
 </div>
-
 
 @section scripts {
     <script>
@@ -75,7 +95,6 @@
     <script src="~/Scripts/GestionasPacientesScripts/formPacientes.js"></script>
     <script src="~/Scripts/GestionasPacientesScripts/buscadorPacientes.js"></script>
     <script src="~/Scripts/GestionasPacientesScripts/actualizarPaciente.js"></script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

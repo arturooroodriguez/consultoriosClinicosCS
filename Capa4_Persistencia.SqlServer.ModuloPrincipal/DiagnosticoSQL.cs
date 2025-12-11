@@ -68,6 +68,28 @@ namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
                 throw new Exception($"Error al registrar el diagnóstico: {ex.Message}");
             }
         }
+        //-----------------------------ObtenerPorConsulta
+        public List<Diagnostico> ObtenerPorConsulta(string consultaCodigo)
+        {
+            List<Diagnostico> diagnosticos = new List<Diagnostico>();
+            string procedimientoSQL = "pro_Obtener_Diagnosticos_Por_Consulta";
+
+            SqlCommand comandoSQL = accesoSQLServer.ObtenerComandoDeProcedimiento(procedimientoSQL);
+            comandoSQL.Parameters.Add(new SqlParameter("@consultaCodigo", consultaCodigo));
+
+            using (SqlDataReader reader = comandoSQL.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    diagnosticos.Add(new Diagnostico
+                    {
+                        DiagnosticoCodigo = reader.GetString(0),
+                        DiagnosticoDescripcion = reader.GetString(1)
+                    });
+                }
+            }
+            return diagnosticos;
+        }
 
     }
 }

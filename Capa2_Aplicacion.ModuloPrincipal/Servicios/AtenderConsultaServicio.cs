@@ -1,14 +1,15 @@
 ﻿using Capa3_Dominio.ModuloPrincipal;
+using Capa3_Dominio.ModuloPrincipal.Entidades;
+using Capa3_Dominio.ModuloPrincipal.TransferenciaDatos;
 using Capa4_Persistencia.SqlServer.ModuloBase;
 using Capa4_Persistencia.SqlServer.ModuloPrincipal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using Capa3_Dominio.ModuloPrincipal.Entidades;
-using System.Globalization;
 namespace Capa2_Aplicacion.ModuloPrincipal.Servicios
 {
     public class AtenderConsultaServicio
@@ -66,8 +67,8 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicios
                        Paciente paciente = pacienteSQL.MostrarPacientePorCodigo(consulta.Paciente.PacienteCodigo);
                         consulta.Paciente = paciente;
 
-                        Medico medico = medicoSQL.ObtenerMedicoPorCodigo(consulta.Medico.MedicoCodigo);
-                        consulta.Medico = medico;
+                        //Medico medico = medicoSQL.ObtenerMedicoPorCodigo(consulta.Medico.MedicoCodigo);
+                        //consulta.Medico = medico;
 
                         consultasDeHoy.Add(consulta); 
                     //}
@@ -83,6 +84,7 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicios
           
             
         }
+
         //Obtener informacion de su historia clinica
 
         public List<Consulta> historiaClinicaDetalles(string HistorialClinicaCodigo ) 
@@ -236,6 +238,85 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicios
             citaSQL.CambiarEstadoCancelado(condigoCita);
             accesoSQLServer.CerrarConexion();
         }
+
+        // BuscarConsultaPorCodigo
+        /*public ConsultaCompletaDTO ObtenerConsultaCompleta(string consultaCodigo)
+        {
+            accesoSQLServer.AbrirConexion();
+
+            var consulta = consultaSQL.ObtenerConsultaPorCodigo1(consultaCodigo);
+            var detalles = detallesConsultaSQL.ObtenerPorConsulta(consultaCodigo);
+            var diagnosticos = diagnosticoSQL.ObtenerPorConsulta(consultaCodigo);
+            var recetas = recetasMedicasSQL.ObtenerPorConsulta(consultaCodigo);
+
+            accesoSQLServer.CerrarConexion();
+
+            return new ConsultaCompletaDTO
+            {
+                Consulta = consulta,
+                DetallesConsulta = detalles,
+                Diagnosticos = diagnosticos,
+                Recetas = recetas
+            };*/
+        /*public ConsultaCompletaDTO ObtenerConsultaCompleta(string consultaCodigo)
+        {
+            try
+            {
+                accesoSQLServer.AbrirConexion();
+
+                // Consulta base (trae campos principales y códigos de paciente/medico)
+                var consulta = consultaSQL.ObtenerConsultaPorCodigo1(consultaCodigo);
+                if (consulta == null) return null;
+
+                // Cargar paciente completo (si existe código)
+                if (consulta.Paciente != null && !string.IsNullOrEmpty(consulta.Paciente.PacienteCodigo))
+                {
+                    consulta.Paciente = pacienteSQL.MostrarPacientePorCodigo(consulta.Paciente.PacienteCodigo);
+                }
+
+                // Cargar medico completo
+                if (consulta.Medico != null && !string.IsNullOrEmpty(consulta.Medico.MedicoCodigo))
+                {
+                    consulta.Medico = medicoSQL.ObtenerMedicoPorCodigo(consulta.Medico.MedicoCodigo);
+                }
+
+                // Cargar detalles, diagnosticos, recetas
+                var detalles = detallesConsultaSQL.ObtenerPorConsulta(consultaCodigo);
+                var diagnosticos = diagnosticoSQL.ObtenerPorConsulta(consultaCodigo);
+                var recetas = recetasMedicasSQL.ObtenerPorConsulta(consultaCodigo);
+
+                return new ConsultaCompletaDTO
+                {
+                    Consulta = consulta,
+                    DetallesConsulta = detalles,
+                    Diagnosticos = diagnosticos,
+                    Recetas = recetas
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                accesoSQLServer.CerrarConexion();
+            }
+
+        }*/
+
+        public ConsultaCompletaDTO ObtenerConsultaCompleta(string consultaCodigo)
+        {
+            accesoSQLServer.AbrirConexion();
+            var consultaCompleta = consultaSQL.ObtenerConsultaCompleta(consultaCodigo);
+            accesoSQLServer.CerrarConexion();
+            return consultaCompleta;
+        }
+
+
+
+
+
+
 
         //Registrar Consulta
 

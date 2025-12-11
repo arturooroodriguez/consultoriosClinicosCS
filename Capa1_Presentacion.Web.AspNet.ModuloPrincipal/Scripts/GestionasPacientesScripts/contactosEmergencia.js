@@ -10,6 +10,7 @@ $(document).ready(function () {
 
 function inicializarEventosContactos() {
     $('#btnAgregarContacto').on('click', function (e) {
+        
         e.preventDefault();
         $('#modalAgregarContacto').modal('show');
     });
@@ -30,6 +31,7 @@ function inicializarEventosContactos() {
 }
 
 function agregarContactoEmergencia() {
+    console.log("HOLA Danie")
     const contacto = {
         ContactoEmergenciaNombre: $('#contactoNombre').val().trim(),
         ContactoEmergenciaRelacion: $('#contactoRelacion').val().trim(),

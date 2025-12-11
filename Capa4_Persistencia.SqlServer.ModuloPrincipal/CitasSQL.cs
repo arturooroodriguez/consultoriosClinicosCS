@@ -16,7 +16,7 @@ namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
             this.accesoSQLServer = accesoSQLServer;
         }
 
-        public void CrearCita(Cita cita)
+        public virtual void CrearCita(Cita cita)
         {
             string procedimientoSQL = "pro_Insertar_Cita";
             try

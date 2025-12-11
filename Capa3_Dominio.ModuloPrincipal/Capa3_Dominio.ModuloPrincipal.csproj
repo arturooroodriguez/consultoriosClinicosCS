@@ -57,6 +57,7 @@
     <Compile Include="Entidades\RecetaMedica.cs" />
     <Compile Include="Entidades\TipoConsulta.cs" />
     <Compile Include="TransferenciaDatos\CitaDTO.cs" />
+    <Compile Include="TransferenciaDatos\ConsultaCompletaDTO.cs" />
     <Compile Include="TransferenciaDatos\DetallesConsultaDTO.cs" />
     <Compile Include="TransferenciaDatos\DiagnosticoDTO.cs" />
     <Compile Include="Entidades\HorarioConCita.cs" />

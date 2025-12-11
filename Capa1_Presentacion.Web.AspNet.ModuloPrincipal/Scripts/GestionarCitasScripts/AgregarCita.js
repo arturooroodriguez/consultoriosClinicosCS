@@ -16,10 +16,10 @@ function inicializarEventosCita() {
 }
 
 function guardarCita() {
+    
     var citaData = obtenerDatosFormularioCita();
-    console.log(citaData);
     if (!validarDatosCita(citaData)) {
-        alert('Por favor, complete todos los campos requeridos.');
+        alert('Por favor, Complete los datos Daniel');
         return;
     }
     $.ajax({
@@ -45,6 +45,7 @@ function guardarCita() {
 
 //aqui obtengo el valor de cada input
 function obtenerDatosFormularioCita() {
+    console.log('Obteniendo datos del formulario de cita...');
     return {
         CitaFechaHora: $('#inputFechaHora').val(),
         PacienteCodigo: $('#pacienteCodigo').text(),

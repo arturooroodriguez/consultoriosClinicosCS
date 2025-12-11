@@ -5,99 +5,120 @@
 @section customStyles {
     <link rel="stylesheet" href="~/Content/Estilos-GestionarPacientes/ListasPacientes.css" />
     <link rel="stylesheet" href="~/Content/Estilos-GestionarPacientes/ModalActualizarPacientes.css" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 }
 
-<style>
-    .text-crema {
-        color: #f5f5dc; 
-    }
-    .custom-bg-yellow {
-        background-color: #a289de;
-    }
-</style>
+<div class="container-fluid">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-notes-medical fa-2x text-primary me-2"></i>
+        <h2 class="mb-0">Consultas del día</h2>
+    </div>
 
-<h2>Consultas del día</h2>
-
-<div id="lista-Citas-Container" class="">
-
-    <div class="input-group rounded">
-        <span class="input-group-text border-0" id="search-addon">
+    <!-- Buscador -->
+    <!--<div class="input-group mb-3 shadow-sm">
+        <span class="input-group-text bg-white border-end-0">
             <i class="fas fa-search"></i>
         </span>
-        <input type="search" id="buscador-personalizado" class="form-control rounded-end " placeholder="buscar" aria-label="Search" aria-describedby="search-addon" />
+        <input type="search" id="buscador-personalizado" class="form-control border-start-0" placeholder="Buscar consulta..." aria-label="Search" />
+    </div>-->
+
+    <!-- buscador Especialidades -->
+    <div class="form-group">
+        <label for="buscarEspecialidad">Buscar Especialidad</label>
+        <input type="text" id="buscarEspecialidad" class="form-control" placeholder="Escribe el nombre de la especialidad...">
     </div>
 
-    <div class="d-flex align-items-center justify-content-between my-3">
-        <ul class="nav "  id="sub-nav">
+
+    <!-- Filtros -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <ul class="nav nav-pills" id="sub-nav">
             <li class="nav-item">
-                <a class="nav-link " href="#" data-filter="all">All <span id="total-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="all">
+                    Todos <span id="total-count" class="badge bg-secondary ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="#" data-filter="Pendiente">Pendiente <span id="pending-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link active" href="#" data-filter="Pendiente">
+                    Pendientes <span id="pending-count" class="badge bg-warning text-dark ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-filter="No asistio">No Asistieron <span id="no-show-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="No asistio">
+                    No asistieron <span id="no-show-count" class="badge bg-danger ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-filter="Atendido">Atendidos <span id="attended-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="Atendido">
+                    Atendidos <span id="attended-count" class="badge bg-success ms-1">0</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-filter="Cancelado">Cancelados <span id="cancelled-count" class="badge badge-custom">0</span></a>
+                <a class="nav-link" href="#" data-filter="Cancelado">
+                    Cancelados <span id="cancelled-count" class="badge bg-dark ms-1">0</span>
+                </a>
             </li>
         </ul>
-        <div class="input-group w-auto">
-            <label class="input-group-text" for="inputFechaCitas">Fecha:</label>
+
+        <!-- Filtro de fecha -->
+        <div class="input-group w-auto mt-2 mt-md-0">
+            <label class="input-group-text" for="inputFechaCitas">
+                <i class="fas fa-calendar-day"></i>
+            </label>
             <input type="date" class="form-control" id="inputFechaCitas">
-
-            <button type="button" id="resetFilter" class="btn btn-outline-secondary" style="border: 1px solid #dee2e6 !important;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"></path>
-                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"></path>
-                </svg>
-                <span class="visually-hidden">Button</span>
+            <button type="button" id="resetFilter" class="btn btn-outline-secondary" title="Restablecer filtros">
+                <i class="fas fa-rotate-right"></i>
             </button>
-
         </div>
     </div>
+
     <hr />
 
-    <table id="tabla_consultas" class="table table-hover" data-url-listar-consulta="@Url.Action("ListarConsultas", "AtenderConsultas")">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Cita Codigo</th>
-                <th>Paciente</th>
-                <th>Fecha Cita</th>
-                <th>Hora</th>
-                <th>Medico</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <!-- Tabla -->
+    <div class="table-responsive shadow-sm rounded">
+        <table id="tabla_consultas" class="table table-hover table-striped table-bordered align-middle"
+               data-url-listar-consulta="@Url.Action("ListarConsultas", "AtenderConsultas")">
+            <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Código</th>
+                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Médico</th>
+                    <th>Especialidad</th> <!-- ✅ Nueva columna -->
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal de Confirmación -->
 <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content shadow border-0 rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="confirmacionModalLabel">
+                    <i class="fas fa-exclamation-circle me-2"></i> Confirmación
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
                 ¿Está seguro de que desea iniciar esta consulta?
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="confirmarIniciarConsulta">Iniciar</button>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="confirmarIniciarConsulta">
+                    <i class="fas fa-play me-1"></i> Iniciar
+                </button>
             </div>
         </div>
     </div>
 </div>
-
 
 @section scripts {
     <script src="~/Scripts/AtenderConsultasScripts/tablaConsultas.js"></script>

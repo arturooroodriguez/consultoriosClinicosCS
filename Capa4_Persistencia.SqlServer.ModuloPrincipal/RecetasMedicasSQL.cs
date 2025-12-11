@@ -72,6 +72,34 @@ namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
             }
         }
 
+        public List<RecetaMedica> ObtenerPorConsulta(string consultaCodigo)
+        {
+            List<RecetaMedica> recetas = new List<RecetaMedica>();
+            string procedimientoSQL = "pro_Obtener_RecetasPorConsulta";
+
+            SqlCommand comandoSQL = accesoSQLServer.ObtenerComandoDeProcedimiento(procedimientoSQL);
+            comandoSQL.Parameters.Add(new SqlParameter("@consultaCodigo", consultaCodigo));
+
+            using (SqlDataReader reader = comandoSQL.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    RecetaMedica receta = new RecetaMedica
+                    {
+                        RecetaCodigo = reader.GetString(0),
+                        RecetaDescripcion = reader.IsDBNull(1) ? null : reader.GetString(1),
+                        RecetaTratamiento = reader.IsDBNull(2) ? null : reader.GetString(2),
+                        RecetaRecomendaciones = reader.IsDBNull(3) ? null : reader.GetString(3),
+                        Consulta = new Consulta { ConsultaCodigo = reader.GetString(4) }
+                    };
+
+                    recetas.Add(receta);
+                }
+            }
+
+            return recetas;
+        }
+
 
     }
 }

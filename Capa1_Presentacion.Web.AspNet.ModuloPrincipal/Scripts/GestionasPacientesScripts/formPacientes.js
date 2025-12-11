@@ -2,6 +2,7 @@
 //Este script manejará el formulario para agregar y actualizar pacientes.
 $(document).ready(function () {
     $('#formAgregarPaciente').on('submit', function (e) {
+        console.log("Hola Dani")
         e.preventDefault();
         if (appState.contactosEmergencia.length === 0) {
             alert('Debe agregar al menos un contacto de emergencia.');

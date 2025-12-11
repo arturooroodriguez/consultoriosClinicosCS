@@ -84,6 +84,7 @@
     <Compile Include="ExcepcionHistoriaClinicaInvalida.cs" />
     <Compile Include="ExcepcionMedicoInvalido.cs" />
     <Compile Include="ExcepcionPacienteInvalido.cs" />
+    <Compile Include="ICie11ApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

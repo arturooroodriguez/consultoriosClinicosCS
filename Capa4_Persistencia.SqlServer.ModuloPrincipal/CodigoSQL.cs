@@ -1,23 +1,21 @@
 ﻿using Capa4_Persistencia.SqlServer.ModuloBase;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
 {
     public class CodigoSQL
     {
-        private AccesoSQLServer accesoSQLServer;
+        private readonly AccesoSQLServer accesoSQLServer;
 
         public CodigoSQL(AccesoSQLServer accesoSQLServer)
         {
             this.accesoSQLServer = accesoSQLServer;
         }
-        public string GenerarCodigoUnico(string prefijo, string tabla, string columnaCodigo)
+
+        // ✅ Método marcado como virtual para poder ser mockeado
+        public virtual string GenerarCodigoUnico(string prefijo, string tabla, string columnaCodigo)
         {
             string codigoGenerado = null;
 
@@ -25,12 +23,10 @@ namespace Capa4_Persistencia.SqlServer.ModuloPrincipal
             {
                 SqlCommand comandoSQL = accesoSQLServer.ObtenerComandoDeProcedimiento("spGenerarCodigoUnico");
 
-                // Agregar los parámetros necesarios
                 comandoSQL.Parameters.Add(new SqlParameter("@prefijo", SqlDbType.NVarChar, 3)).Value = prefijo;
                 comandoSQL.Parameters.Add(new SqlParameter("@tabla", SqlDbType.NVarChar, 128)).Value = tabla;
                 comandoSQL.Parameters.Add(new SqlParameter("@columnaCodigo", SqlDbType.NVarChar, 128)).Value = columnaCodigo;
 
-                // Ejecutar el comando y obtener el código generado
                 using (SqlDataReader reader = comandoSQL.ExecuteReader())
                 {
                     if (reader.Read())

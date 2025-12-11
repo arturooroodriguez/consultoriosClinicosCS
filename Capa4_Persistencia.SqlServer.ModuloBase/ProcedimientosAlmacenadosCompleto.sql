@@ -1151,3 +1151,64 @@ END
 GO
 
 
+CREATE   PROCEDURE pro_Listar_ConsultaConEspecialidad1  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    SELECT   
+    c.consultaCodigo,  
+    c.consultacitaCodigo,  
+    ci.citaFechaHora,  
+    ci.citaEstado,  
+    c.consultaFechaHoraFinal,  
+    c.pacienteCodigo,  
+    p.pacienteNombreCompleto,  
+    c.medicoCodigo,  
+    me.medicoNombre,  
+    me.medicoApellido,
+    c.tipoConsultaCodigo,  
+    p.historialClinicoCodigo,
+    me.especialidadCodigo,
+    es.especialidadNombre
+FROM   
+    Gestion.Consulta AS c  
+    LEFT JOIN Gestion.Cita AS ci ON ci.citaCodigo = c.consultacitaCodigo  
+    LEFT JOIN Administracion.Medico AS me ON c.medicoCodigo = me.medicoCodigo  
+    LEFT JOIN Administracion.Especialidad AS es ON es.especialidadCodigo = me.especialidadCodigo
+    LEFT JOIN Salud.Pacientes AS p ON c.pacienteCodigo = p.pacienteCodigo ;  
+END;  
+
+EXEC sp_helptext 'pro_Listar_Consulta';
+select * from [Administracion].[Medico]
+ 
+
+CREATE PROCEDURE pro_Listar_ConsultaConEspecialidad
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT  
+        c.consultaCodigo,  
+        c.consultacitaCodigo,  
+        ci.citaFechaHora,  
+        ci.citaEstado,  
+        c.consultaFechaHoraFinal,  
+        c.pacienteCodigo,  
+        p.pacienteNombreCompleto,  
+        c.medicoCodigo,  
+        me.medicoNombre,  
+        me.medicoApellido,
+        me.especialidadCodigo,
+        es.especialidadNombre,
+        c.tipoConsultaCodigo,  
+        p.historialClinicoCodigo
+    FROM Gestion.Consulta AS c
+    LEFT JOIN Gestion.Cita AS ci ON ci.citaCodigo = c.consultacitaCodigo  
+    LEFT JOIN Administracion.Medico AS me ON c.medicoCodigo = me.medicoCodigo  
+    LEFT JOIN Administracion.Especialidad AS es ON es.especialidadCodigo = me.especialidadCodigo
+    LEFT JOIN Salud.Pacientes AS p ON c.pacienteCodigo = p.pacienteCodigo;
+
+    SET NOCOUNT OFF;
+END;
+GO

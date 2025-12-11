@@ -40,6 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModuloPrincipal", "ModuloPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa1_Presentacion.Web.AspNet.ModuloPrincipal", "Capa1_Presentacion.Web.AspNet.ModuloPrincipal\Capa1_Presentacion.Web.AspNet.ModuloPrincipal.csproj", "{26B2722A-503F-4F70-AA27-CF7C645E9992}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultorioClinico.Tests", "ConsultorioClinico.Tests\ConsultorioClinico.Tests.csproj", "{D5385E43-61D7-4952-BB62-712F65FFF3E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Tests", "UI.Tests\UI.Tests.csproj", "{B28F7B0D-0CD6-46AE-8542-EE4E787C6A9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +70,14 @@ Global
 		{26B2722A-503F-4F70-AA27-CF7C645E9992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26B2722A-503F-4F70-AA27-CF7C645E9992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26B2722A-503F-4F70-AA27-CF7C645E9992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5385E43-61D7-4952-BB62-712F65FFF3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5385E43-61D7-4952-BB62-712F65FFF3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5385E43-61D7-4952-BB62-712F65FFF3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5385E43-61D7-4952-BB62-712F65FFF3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28F7B0D-0CD6-46AE-8542-EE4E787C6A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28F7B0D-0CD6-46AE-8542-EE4E787C6A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28F7B0D-0CD6-46AE-8542-EE4E787C6A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28F7B0D-0CD6-46AE-8542-EE4E787C6A9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

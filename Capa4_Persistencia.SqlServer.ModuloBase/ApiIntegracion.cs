@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Capa4_Persistencia.SqlServer.ModuloBase
 {
-    public class Cie11ApiClient
+    public class Cie11ApiClient : ICie11ApiClient
     {
         private const string BaseUrl = "https://id.who.int/icd/";
         private const string TokenUrl = "https://icdaccessmanagement.who.int";

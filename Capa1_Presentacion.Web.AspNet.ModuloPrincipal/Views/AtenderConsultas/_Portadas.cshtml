@@ -1,27 +1,51 @@
-﻿
-<div>
-    <h3 id="nombrePaciente" class=""></h3>
-    <div class="row">
-        <div class="col-4">
-            <p id="edad"></p>
-            <p id="FechaNacimiento"></p>
-            <p id="Dni" ></p>
-            <p>Estado civil: Soltero</p>
-            <p>Tipo sangre: O+</p>
+﻿<div class="card shadow-sm border-0 mb-3">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+        <i class="fas fa-user me-2"></i>
+        <h5 id="nombrePaciente" class="mb-0">Paciente</h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <!-- Columna 1 -->
+            <div class="col-md-4">
+                <div class="mb-2">
+                    <small class="text-muted"><i class="fas fa-birthday-cake me-1"></i></small>
+                    <p id="edad" class="fw-semibold mb-0"></p>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted"><i class="fas fa-calendar-day me-1"></i></small>
+                    <p id="FechaNacimiento" class="fw-semibold mb-0"></p>
+                </div>
+                <div>
+                    <small class="text-muted"><i class="fas fa-id-card me-1"></i> </small>
+                    <p id="Dni" class="fw-semibold mb-0"></p>
+                </div>
+            </div>
+
+            <!-- Columna 2 -->
+            <div class="col-md-4">
+                <div class="mb-2">
+                    <small class="text-muted"><i class="fas fa-home me-1"></i> </small>
+                    <p id="direccion" class="fw-semibold mb-0"></p>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted"><i class="fas fa-envelope me-1"></i> </small>
+                    <p id="correo" class="fw-semibold mb-0"></p>
+                </div>
+                <div>
+                    <small class="text-muted"><i class="fas fa-phone me-1"></i> </small>
+                    <p id="celular" class="fw-semibold mb-0"></p>
+                </div>
+            </div>
+
+            <!-- Columna 3 (opcional emergencias) -->
+            @*
+                <div class="col-md-4">
+                    <div>
+                        <small class="text-muted"><i class="fas fa-phone-alt me-1"></i> Emergencia</small>
+                        <p class="numeroEmergencia fw-semibold mb-0"></p>
+                    </div>
+                </div>
+            *@
         </div>
-        <div class="col-4">
-            <p id="direccion"></p>
-            <p id="correo"></p>
-            <p id="celular"></p>
-            <p >Nacionalidad: Peruana</p>
-        </div>
-        @*<div id="ContactosEmergencia" class="col-4" >
-            <p class="numeroEmergencia"></p>
-        </div>*@
     </div>
 </div>
-
-
-<script>
-   
-</script>

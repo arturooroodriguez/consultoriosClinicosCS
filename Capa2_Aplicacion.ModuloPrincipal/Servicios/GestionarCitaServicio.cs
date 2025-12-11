@@ -21,6 +21,7 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
         private readonly ConsultaSQL consultaSQL;
         private readonly HorariosSQL horariosSQL;
 
+        // Constructor original
         public GestionarCitaServicio()
         {
             accesoSQLServer = new AccesoSQLServer();
@@ -31,6 +32,25 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
             codigoSQL = new CodigoSQL(accesoSQLServer);
             consultaSQL = new ConsultaSQL(accesoSQLServer);
             horariosSQL = new HorariosSQL(accesoSQLServer);
+        }
+
+        // Nuevo constructor para tests
+        public GestionarCitaServicio(
+            AccesoSQLServer accesoSQLServer,
+            CitaSQL citaSQL,
+            ConsultaSQL consultaSQL,
+            CodigoSQL codigoSQL)
+        {
+            this.accesoSQLServer = accesoSQLServer;
+            this.citaSQL = citaSQL;
+            this.consultaSQL = consultaSQL;
+            this.codigoSQL = codigoSQL;
+
+            // Inicializar los otros campos normalmente para no romper otros métodos
+            this.especialidadSQL = new EspecialidadSQL(accesoSQLServer);
+            this.pacienteSQL = new PacienteSQL(accesoSQLServer);
+            this.medicoSQL = new MedicoSQL(accesoSQLServer);
+            this.horariosSQL = new HorariosSQL(accesoSQLServer);
         }
 
         // Mostrar horarios con citas para una especialidad y fecha específica
@@ -70,6 +90,13 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
 
         public void RegistrarCita(Consulta consulta)
         {
+            if (consulta?.Cita == null)
+                throw new ArgumentException("La consulta o la cita no pueden ser nulas.");
+
+            // Validación: la cita no puede ser de una fecha pasada
+            if (consulta.Cita.CitaFechaHora.Date < DateTime.Today)
+                throw new Exception("No se puede registrar una cita con fecha pasada.");
+
             accesoSQLServer.IniciarTransaccion();
             try
             {
@@ -77,8 +104,8 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
                 consulta.ConsultaCodigo = codigoSQL.GenerarCodigoUnico("CON", "Gestion.Consulta", "consultaCodigo");
                 consulta.ConsultaFechaHoraFinal = null;
                 consulta.Cita.CitaCodigo = codigoSQL.GenerarCodigoUnico("CIT", "Gestion.cita", "citaCodigo");
-                
-               
+
+                // Guardar en base de datos
                 citaSQL.CrearCita(consulta.Cita);
                 consultaSQL.CrearConsulta(consulta);
 
@@ -90,6 +117,7 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
                 throw new Exception($"Error al registrar la cita y la consulta: {ex.Message}", ex);
             }
         }
+
 
 
         public void ActualizarCita(Cita cita)
@@ -193,7 +221,7 @@ namespace Capa2_Aplicacion.ModuloPrincipal.Servicio
         }
 
 
-        xd en desarrollo aun
+      
 
 
     }
