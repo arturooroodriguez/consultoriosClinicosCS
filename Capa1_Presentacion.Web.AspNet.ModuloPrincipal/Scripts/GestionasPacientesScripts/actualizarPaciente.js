@@ -205,13 +205,12 @@ function validarDatosActualizarPaciente(paciente) {
         return false;
     }
 
-    if (
-        paciente.PacienteCorreoElectronico &&
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paciente.PacienteCorreoElectronico)
-    ) {
-        alert("El correo electrónico no tiene un formato válido.");
-        return false;
-    }
+    const emailRegex = /^[^@\s]{1,64}@[^\s]{1,255}\.[A-Za-z]{2,}$/;
+
+    if (paciente.PacienteCorreoElectronico && !emailRegex.test(paciente.PacienteCorreoElectronico)) {
+    alert("El correo electrónico no tiene un formato válido.");
+    return false;
+}
 
     return true; // Los datos son válidos
 }
